@@ -1,4 +1,5 @@
 <?php
+ini_set('display_errors', 0);
 require 'sdk/facebook.php';
 
 $facebook = new Facebook(array(
@@ -25,22 +26,22 @@ if ($user) {
 }
 
 // Logout
-if($_GET["Action"] == "Logout")
+if($_GET["Action"] != null)
 {
   $facebook->destroySession();
   header("location:index.php");
   exit();
 }
 
-$mysqli = new mysqli('localhost','boyphon1_prouse','team1556th','boyphon1_prouse');
+$mysqli = new mysqli('127.0.0.1','username','password','dbname');
 mysqli_set_charset($mysqli, "utf8");
 $q = "SELECT * FROM user";
-$checkuser = "SELECT * FROM user WHERE id = $user_profile[id]"; 
-$qstst = "SELECT * FROM intoprofile WHERE id = $user_profile[id]";
+$checkuser = "SELECT * FROM user WHERE id = '$user_profile[id]'"; 
+$qstst = "SELECT * FROM intoprofile WHERE id = '$user_profile[id]'";
 $uptime = "SELECT * FROM user ORDER BY lastlogin DESC";
 $upviewday = "SELECT * FROM user ORDER BY ABS(view) DESC";
 $allview = "SELECT * FROM viewer";
-$checkmyview = "SELECT * FROM viewer WHERE pageview = $user_profile[id]";
+$checkmyview = "SELECT * FROM viewer WHERE pageview = '$user_profile[id]'";
 $registertime = "SELECT * FROM user ORDER BY registerday DESC";
 $objQuery = $mysqli->query($q);
 $upviewdatcopy = $mysqli->query($upviewday);
@@ -64,7 +65,7 @@ $visitorIP = $_SERVER[REMOTE_ADDR];
 $tocowyo = date("Y-m-d");
 
 if ($checkuserst) {
-  $sql = "UPDATE user SET lastlogin = NOW() WHERE id = '".$user_profile[id]."'";
+  $sql = "UPDATE user SET lastlogin = NOW() WHERE id = '$user_profile[id]'";
   $query = mysqli_query($mysqli,$sql);
 } else {
 }
