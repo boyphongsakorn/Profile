@@ -17,7 +17,7 @@ header("location:../mobile/index.php");
 }
 ?>
 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-<script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -153,7 +153,7 @@ $checknameecho = mysqli_fetch_array($checknamest);
           </ul>
         </li>
         <?php else: ?>
-        <li><a href="login.php">เข้าสู่ระบบด้วย Facebook หรือ E-mail</a></li>
+        <!--li><a href="login.php">เข้าสู่ระบบด้วย Facebook หรือ E-mail</a></li-->
         <?php endif ?>
       </ul>
     </div><!-- /.navbar-collapse -->
