@@ -8,14 +8,15 @@ include('config_profile.php');
 //We check if the users ID is defined
 if(isset($_GET['iduser']))
 {
-        $id = intval($_GET['iduser']);
+        $id = $_GET['iduser'];
         //We check if the user exists
-        $dn = mysql_query('select * from user where id="'.$id.'"');
-        $infoprofile = mysql_query('select * from intoprofile where id="'.$id.'"');
-        $infoprofilenn = mysql_fetch_array($infoprofile);
-        if(mysql_num_rows($dn) > 0)
+        $dnquery = "select * from user where id='$id'";
+        $dn = $mysqli->query($dnquery);
+        $infoprofile = $mysqli->query('select * from intoprofile where id="'.$id.'"');
+        $infoprofilenn = mysqli_fetch_array($infoprofile);
+        if(mysqli_num_rows($dn) > 0)
         {
-                $dnn = mysql_fetch_array($dn);
+                $dnn = mysqli_fetch_array($dn);
                 //We display the user datas
 ?>
 <html xmlns:fb="http://www.facebook.com/2008/fbml">
@@ -32,7 +33,7 @@ header("location:../mobile/profile.php?iduser=".$id."");
 }
 ?>
 <link rel="stylesheet" href="font-awesome-4.7.0/css/font-awesome.min.css">
-<script type="text/javascript" src="jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://apis.google.com/js/platform.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -253,7 +254,7 @@ $a = $a+1;?>
           </ul>
         </li>
         <?php else: ?>
-        <li><a href="login.php">เข้าสู่ระบบด้วย Facebook หรือ E-mail</a></li>
+        <!--li><a href="login.php">เข้าสู่ระบบด้วย Facebook หรือ E-mail</a></li-->
         <?php endif ?>
       </ul>
     </div><!-- /.navbar-collapse -->
@@ -264,14 +265,14 @@ include('config_profile.php');
 //We check if the users ID is defined
 if(isset($_GET['iduser']))
 {
-        $id = intval($_GET['iduser']);
+        $id = $_GET['iduser'];
         //We check if the user exists
-        $dn = mysql_query('select * from user where id="'.$id.'"');
-        $infoprofile = mysql_query('select * from intoprofile where id="'.$id.'"');
-        $infoprofilenn = mysql_fetch_array($infoprofile);
-        if(mysql_num_rows($dn) > 0)
+        $dn = $mysqli->query('select * from user where id="'.$id.'"');
+        $infoprofile = $mysqli->query('select * from intoprofile where id="'.$id.'"');
+        $infoprofilenn = mysqli_fetch_array($infoprofile);
+        if(mysqli_num_rows($dn) > 0)
         {
-                $dnn = mysql_fetch_array($dn);
+                $dnn = mysqli_fetch_array($dn);
                 //We display the user datas
 ?>
 <div class="container">
@@ -389,17 +390,17 @@ $('#messengergroup<?php if (mysqli_num_rows($useroneshowst) == 0):?><?php echo $
 <?php
 // การเรียกใช้ IP  
 
-$qst = "SELECT * FROM viewer WHERE ip = '".$visitorIP."' AND viewdatatime = '".$tocowyo."' AND pageview = '".$id."'";
-$objQueryst = $mysqli->query($qst);
-$checkipviewer = mysqli_fetch_array($objQueryst);
+$qst = "SELECT * FROM viewer WHERE ip = '".$visitorIP."' AND viewdatatime = '".$tocowyo."' AND pageview = '".$id."'"; // เรียกข้อมูล
+$objQueryst = $mysqli->query($qst); // ใช้คำสั่ง
+$checkipviewer = mysqli_fetch_array($objQueryst); // แสดงเป็น array
 
-if ($checkipviewer) {
+if ($checkipviewer) { // ถ้าคำสั่งใช้ได้ หมายถึง ถ้า ip นี้ วันนี้ เข้า page นี้แล้ว
 
-} else {
-$addview = $dnn[view]+1;
-$sqlquery = "INSERT INTO viewer VALUES ('$visitorIP','$user_profile[id]',NOW(),'$id',NOW())";
+} else { // ถ้ายังไม่เข้า
+$addview = $dnn[view]+1; // เพิ่มview ไปอีกหนึ่ง
+$sqlquery = "INSERT INTO viewer VALUES ('$visitorIP','$user_profile[id]',NOW(),'$id',NOW())"; // เพิ่มข้อมูล ip นี้
 $results = mysqli_query($mysqli,$sqlquery);
-$sqlquerytwo = "UPDATE user SET view = $addview WHERE id = $id";
+$sqlquerytwo = "UPDATE user SET view = $addview WHERE id = $id"; // แก้ไขข้อมูล
 $resultstwo = mysqli_query($mysqli,$sqlquerytwo);
 }
 ?>
@@ -417,7 +418,6 @@ else
 ?>
 <?php
 require 'footer.php';
-require 'messengerpopup.php';
 ?>
 </body>
 </html>
